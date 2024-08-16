@@ -9,112 +9,161 @@ import SwiftUI
 import AVKit
 
 struct ContentView: View {
+    
+    // State variables for audio player, animations, and view appearance
     @State private var audioPlayer: AVAudioPlayer!
     @State private var scalePlayButton = false
     @State private var moveBackgroundImage = false
+    @State private var animateViewsIn = false
+    
     var body: some View {
-        GeometryReader{geo in
-            ZStack{
+        GeometryReader { geo in
+            ZStack {
+                // Background Image with moving animation
                 Image(.hogwarts)
                     .resizable()
                     .frame(width: geo.size.width * 3, height: geo.size.height)
-                    .padding(.top,3)
-                //Animation to move background image
-                    .offset(x: moveBackgroundImage ? geo.size.width/1.1 : -geo.size.width/1.1)
-                    .onAppear{
+                    .padding(.top, 3)
+                    .offset(x: moveBackgroundImage ? geo.size.width / 1.1 : -geo.size.width / 1.1)
+                    .onAppear {
+                        // Animate background image to move back and forth
                         withAnimation(.linear(duration: 60).repeatForever()) {
                             moveBackgroundImage.toggle()
                         }
                     }
                 
-                VStack{
-                    VStack{
-                        Image(systemName: "bolt.fill")
-                            .font(.largeTitle)
-                            .imageScale(.large)
-                        Text("HP")
-                            .font(.custom(Constants.hpFont, size: 70))
-                            .padding(.bottom, -50)
-                        Text("Trivia")
-                            .font(.custom(Constants.hpFont, size: 60))
-                    }
-                    .padding(.top,70)
-                    Spacer()
-                    VStack{
-                        Text("Recent Scores")
-                            .font(.title2)
-                        Text("33")
-                        Text("27")
-                        Text("15")
-                    }
-                    .font(.title3)
-                    .padding(.horizontal)
-                    .foregroundStyle(.white)
-                    .background(.black.opacity(0.7))
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    Spacer()
-                    HStack{
-                        Spacer()
-                        Button{
-                            // show instruction screen
-                        }label: {
-                            Image(systemName: "info.circle.fill")
-                                .font(.largeTitle)
-                                .foregroundStyle(.white)
-                                .shadow(radius: 5)
+                VStack {
+                    VStack {
+                        if animateViewsIn {
+                            VStack {
+                                // Displaying "HP Trivia" with animation
+                                Image(systemName: "bolt.fill")
+                                    .font(.largeTitle)
+                                    .imageScale(.large)
+                                Text("HP")
+                                    .font(.custom(Constants.hpFont, size: 70))
+                                    .padding(.bottom, -50)
+                                Text("Trivia")
+                                    .font(.custom(Constants.hpFont, size: 60))
+                            }
+                            .padding(.top, 70)
+                            .transition(.move(edge: .top)) // Animate entry from the top
                         }
-                        Spacer()
-                        Button{
-                            //start a new game
-                        }label: {
-                            Text("Play")
-                                .font(.largeTitle)
-                                .foregroundStyle(.white)
-                                .padding(.vertical,7)
-                                .padding(.horizontal,50)
-                                .background(.brown)
-                                .clipShape(RoundedRectangle(cornerRadius: 7))
-                                .shadow(radius: 5)
+                    }
+                    .animation(.easeOut(duration: 0.7).delay(2), value: animateViewsIn)
+                    
+                    Spacer()
+                    
+                    VStack {
+                        if animateViewsIn {
+                            // Displaying recent scores with opacity transition
+                            VStack {
+                                Text("Recent Scores")
+                                    .font(.title2)
+                                Text("33")
+                                Text("27")
+                                Text("15")
+                            }
+                            .font(.title3)
+                            .padding(.horizontal)
+                            .foregroundStyle(.white)
+                            .background(.black.opacity(0.7))
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .transition(.opacity)
                         }
-                        //Animation for play button
-                        .scaleEffect(scalePlayButton ? 1.2 : 1)
-                        .onAppear{
-                            withAnimation(.easeInOut(duration: 1.3).repeatForever()) {
-                                scalePlayButton.toggle()
+                    }
+                    .animation(.linear(duration: 1).delay(4), value: animateViewsIn)
+                    
+                    Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        
+                        VStack {
+                            if animateViewsIn {
+                                // Button to show instruction screen with slide-in animation
+                                Button {
+                                    // show instruction screen
+                                } label: {
+                                    Image(systemName: "info.circle.fill")
+                                        .font(.largeTitle)
+                                        .foregroundStyle(.white)
+                                        .shadow(radius: 5)
+                                }
+                                .transition(.offset(x: -geo.size.width / 4)) // Slide in from the left
                             }
                         }
+                        .animation(.easeOut(duration: 0.7).delay(2.7), value: animateViewsIn)
                         
-
                         Spacer()
-                        Button{
-                            //show setting screem
-                        }label: {
-                            Image(systemName: "gearshape.fill")
-                                .font(.largeTitle)
-                                .foregroundStyle(.white)
-                                .shadow(radius: 5)
+                        
+                        VStack {
+                            if animateViewsIn {
+                                // Play button with scaling animation
+                                Button {
+                                    // start a new game
+                                } label: {
+                                    Text("Play")
+                                        .font(.largeTitle)
+                                        .foregroundStyle(.white)
+                                        .padding(.vertical, 7)
+                                        .padding(.horizontal, 50)
+                                        .background(.brown)
+                                        .clipShape(RoundedRectangle(cornerRadius: 7))
+                                        .shadow(radius: 5)
+                                }
+                                .scaleEffect(scalePlayButton ? 1.2 : 1) // Animate scaling effect
+                                .onAppear {
+                                    // Repeated scaling animation for the Play button
+                                    withAnimation(.easeInOut(duration: 1.3).repeatForever()) {
+                                        scalePlayButton.toggle()
+                                    }
+                                }
+                                .transition(.offset(y: geo.size.height / 3)) // Slide in from the bottom
+                            }
                         }
+                        .animation(.easeOut(duration: 0.7).delay(2), value: animateViewsIn)
+                        
                         Spacer()
-                    }.frame(width: geo.size.width)
+                        
+                        VStack {
+                            if animateViewsIn {
+                                // Button to show settings screen with slide-in animation
+                                Button {
+                                    // show setting screen
+                                } label: {
+                                    Image(systemName: "gearshape.fill")
+                                        .font(.largeTitle)
+                                        .foregroundStyle(.white)
+                                        .shadow(radius: 5)
+                                }
+                                .transition(.offset(x: geo.size.width / 4)) // Slide in from the right
+                            }
+                        }
+                        .animation(.easeOut(duration: 0.7).delay(2.7), value: animateViewsIn)
+                        
+                        Spacer()
+                    }
+                    .frame(width: geo.size.width)
+                    
                     Spacer()
                 }
             }
-            .frame(width:geo.size.width , height: geo.size.height)
-            
-            
+            .frame(width: geo.size.width, height: geo.size.height)
         }
-        .ignoresSafeArea()
-//        .onAppear{
-//            playAudio()
-//        }
-
+        .ignoresSafeArea() // Ignore safe area to cover the full screen
+        .onAppear {
+            animateViewsIn = true // Trigger animations on view appearance
+            // playAudio() // Uncomment to play background music
+        }
     }
-    private func playAudio(){
+    
+    // Function to play background music
+    private func playAudio() {
         let sound = Bundle.main.path(forResource: "magic-in-the-air", ofType: "mp3")
         audioPlayer = try! AVAudioPlayer(contentsOf: URL(filePath: sound!))
-        audioPlayer.numberOfLoops = -1
-        audioPlayer.play()
-        
+        audioPlayer.numberOfLoops = -1 // Loop the audio indefinitely
+        audioPlayer.play() // Start playing the audio
     }
 }
 
