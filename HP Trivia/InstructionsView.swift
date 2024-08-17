@@ -35,7 +35,6 @@ struct InstructionsView: View {
                     .font(.title3)
                     Text("Good Luck!")
                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                    
                 }
                 .foregroundStyle(.black)
                 Button("Done"){

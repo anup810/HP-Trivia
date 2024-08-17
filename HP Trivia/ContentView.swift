@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var moveBackgroundImage = false
     @State private var animateViewsIn = false
     @State private var showInstructionsView = false
+    @State private var showSettingsView = false
+    @State private var playGame = false
     
     var body: some View {
         GeometryReader { geo in
@@ -107,6 +109,7 @@ struct ContentView: View {
                                 // Play button with scaling animation
                                 Button {
                                     // start a new game
+                                    playGame.toggle()
                                 } label: {
                                     Text("Play")
                                         .font(.largeTitle)
@@ -125,9 +128,13 @@ struct ContentView: View {
                                     }
                                 }
                                 .transition(.offset(y: geo.size.height / 3)) // Slide in from the bottom
+                                .fullScreenCover(isPresented: $playGame, content: {
+                                    GamePlayView()
+                                })
                             }
                         }
                         .animation(.easeOut(duration: 0.7).delay(2), value: animateViewsIn)
+                        
                         
                         Spacer()
                         
@@ -136,6 +143,8 @@ struct ContentView: View {
                                 // Button to show settings screen with slide-in animation
                                 Button {
                                     // show setting screen
+                                    showSettingsView.toggle()
+                                    
                                 } label: {
                                     Image(systemName: "gearshape.fill")
                                         .font(.largeTitle)
@@ -143,6 +152,9 @@ struct ContentView: View {
                                         .shadow(radius: 5)
                                 }
                                 .transition(.offset(x: geo.size.width / 4)) // Slide in from the right
+                                .sheet(isPresented: $showSettingsView, content: {
+                                   SettingsView()
+                                })
                             }
                         }
                         .animation(.easeOut(duration: 0.7).delay(2.7), value: animateViewsIn)
@@ -159,7 +171,7 @@ struct ContentView: View {
         .ignoresSafeArea() // Ignore safe area to cover the full screen
         .onAppear {
             animateViewsIn = true // Trigger animations on view appearance
-            // playAudio() // Uncomment to play background music
+             //playAudio() // to play background music
         }
     }
     

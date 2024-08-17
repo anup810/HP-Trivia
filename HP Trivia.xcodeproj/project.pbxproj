@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4ADE333B2C70243900E65D6D /* GamePlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADE333A2C70243900E65D6D /* GamePlayView.swift */; };
 		4AEC07D52C6F6A100035B400 /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC07D42C6F6A100035B400 /* InstructionsView.swift */; };
 		4AEC07D72C6F6FF30035B400 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC07D62C6F6FF30035B400 /* SettingsView.swift */; };
 		4AEE9A212C6ED58C00A67F82 /* HP_TriviaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEE9A202C6ED58C00A67F82 /* HP_TriviaApp.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4ADE333A2C70243900E65D6D /* GamePlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePlayView.swift; sourceTree = "<group>"; };
 		4AEC07D42C6F6A100035B400 /* InstructionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		4AEC07D62C6F6FF30035B400 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4AEE9A1D2C6ED58C00A67F82 /* HP Trivia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HP Trivia.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +79,7 @@
 			children = (
 				4AEE9A402C6EE03C00A67F82 /* Constants.swift */,
 				4AEE9A222C6ED58C00A67F82 /* ContentView.swift */,
+				4ADE333A2C70243900E65D6D /* GamePlayView.swift */,
 				4AEC07D42C6F6A100035B400 /* InstructionsView.swift */,
 				4AEC07D62C6F6FF30035B400 /* SettingsView.swift */,
 				4AEE9A202C6ED58C00A67F82 /* HP_TriviaApp.swift */,
@@ -187,6 +190,7 @@
 				4AEC07D52C6F6A100035B400 /* InstructionsView.swift in Sources */,
 				4AEE9A212C6ED58C00A67F82 /* HP_TriviaApp.swift in Sources */,
 				4AEE9A412C6EE03C00A67F82 /* Constants.swift in Sources */,
+				4ADE333B2C70243900E65D6D /* GamePlayView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
