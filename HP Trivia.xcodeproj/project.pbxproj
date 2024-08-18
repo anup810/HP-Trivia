@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4AD9DD672C721EF000ED653C /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD9DD662C721EF000ED653C /* Store.swift */; };
 		4ADE333B2C70243900E65D6D /* GamePlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADE333A2C70243900E65D6D /* GamePlayView.swift */; };
 		4AEC07D52C6F6A100035B400 /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC07D42C6F6A100035B400 /* InstructionsView.swift */; };
 		4AEC07D72C6F6FF30035B400 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC07D62C6F6FF30035B400 /* SettingsView.swift */; };
@@ -27,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4AD9DD652C721DAB00ED653C /* HPConfig.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = HPConfig.storekit; sourceTree = "<group>"; };
+		4AD9DD662C721EF000ED653C /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		4ADE333A2C70243900E65D6D /* GamePlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePlayView.swift; sourceTree = "<group>"; };
 		4AEC07D42C6F6A100035B400 /* InstructionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		4AEC07D62C6F6FF30035B400 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -80,8 +83,10 @@
 				4AEE9A402C6EE03C00A67F82 /* Constants.swift */,
 				4AEE9A222C6ED58C00A67F82 /* ContentView.swift */,
 				4ADE333A2C70243900E65D6D /* GamePlayView.swift */,
+				4AD9DD652C721DAB00ED653C /* HPConfig.storekit */,
 				4AEC07D42C6F6A100035B400 /* InstructionsView.swift */,
 				4AEC07D62C6F6FF30035B400 /* SettingsView.swift */,
+				4AD9DD662C721EF000ED653C /* Store.swift */,
 				4AEE9A202C6ED58C00A67F82 /* HP_TriviaApp.swift */,
 				4AEE9A312C6ED89800A67F82 /* deep-in-the-dell.mp3 */,
 				4AEE9A2E2C6ED89800A67F82 /* hiding-place-in-the-forest.mp3 */,
@@ -185,6 +190,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AD9DD672C721EF000ED653C /* Store.swift in Sources */,
 				4AEC07D72C6F6FF30035B400 /* SettingsView.swift in Sources */,
 				4AEE9A232C6ED58C00A67F82 /* ContentView.swift in Sources */,
 				4AEC07D52C6F6A100035B400 /* InstructionsView.swift in Sources */,

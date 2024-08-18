@@ -7,15 +7,11 @@
 
 import SwiftUI
 
-enum BookStatus{
-    case active
-    case inactive
-    case locked
-}
+
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dimiss
-    @State private var books: [BookStatus] = [.active,.active,.inactive,.locked,.locked,.locked,.locked]
+    @EnvironmentObject private var store : Store
     var body: some View {
         ZStack{
             InfoBackgroundImage()
@@ -27,7 +23,7 @@ struct SettingsView: View {
                 ScrollView{
                     LazyVGrid(columns:[GridItem(),GridItem()]){
                         ForEach(0..<7){i in
-                            if books[i] == .active{
+                            if store.books[i] == .active{
                                 ZStack(alignment:.bottomTrailing) {
                                     Image("hp\(i+1)")
                                         .resizable()
@@ -42,10 +38,10 @@ struct SettingsView: View {
                                         .padding(3)
                                 }
                                 .onTapGesture {
-                                    books[i] = .inactive
+                                    store.books[i] = .inactive
                                 }
                             }
-                            else if books[i] == .inactive{
+                            else if store.books[i] == .inactive{
                                 ZStack(alignment:.bottomTrailing){
                                     Image("hp\(i+1)")
                                         .resizable()
@@ -61,7 +57,7 @@ struct SettingsView: View {
                                     
                                 }
                                 .onTapGesture {
-                                    books[i] = .active
+                                    store.books[i] = .active
                                 }
                             }
                             else{
@@ -94,4 +90,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environmentObject(Store())
 }
