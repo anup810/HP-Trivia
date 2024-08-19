@@ -8,40 +8,37 @@
 import Foundation
 import StoreKit
 
-// Enum representing the status of each book
-enum BookStatus {
+enum BookStatus{
     case active
     case inactive
     case locked
 }
 
 @MainActor
-class Store: ObservableObject {
-    @Published var books: [BookStatus] = [.active, .active, .inactive, .locked, .locked, .locked, .locked]
+class Store: ObservableObject{
+    @Published var books: [BookStatus] = [.active,.active,.inactive,.locked,.locked,.locked,.locked]
     @Published var products: [Product] = []
-    private var productIDS = ["hp4", "hp5", "hp6", "hp7"]
+    private var productIDS = ["hp4","hp5","hp6","hp7"]
     @Published var purchasedIDs = Set<String>()
-    private var updates: Task<Void, Never>? = nil
-    
-    // Initializer to start watching for transaction updates
-    init() {
+    private var updates: Task<Void ,Never>? = nil
+    init(){
         updates = watchForUpdates()
+        
     }
     
-    // Function to load products
-    func loadProducts() async {
-        do {
+    func loadProdcuts() async{
+        do{
             products = try await Product.products(for: productIDS)
-        } catch {
-            print("Couldn't fetch the product: \(error)")
+        }catch{
+            print("Couldn't fetch the product:\(error)")
         }
     }
     
-    // Function to handle the purchase of a product
     func purchase(_ product: Product) async {
-        do {
+        do{
             let result = try await product.purchase()
             switch result {
+                // Purchase sucessful, but now we have to verify recipt
             case .success(let verificationResult):
                 switch verificationResult {
                 case .unverified(let signedType, let verificationError):
@@ -49,41 +46,39 @@ class Store: ObservableObject {
                 case .verified(let signedType):
                     purchasedIDs.insert(signedType.productID)
                 }
+                
+                // User cancelled or parent disapproved child's purchase request
             case .userCancelled:
-                // User cancelled the purchase
                 break
-            case .pending:
                 // Waiting for approval
+            case .pending:
                 break
             @unknown default:
                 break
             }
-        } catch {
+        }catch{
             print("Couldn't purchase that product: \(error)")
         }
     }
     
-    // Private function to check previously purchased products
-    private func checkPurchased() async {
+   private func checkPurchased() async{
         for product in products {
-            guard let state = await product.currentEntitlement else { return }
+            guard let state = await product.currentEntitlement else {return}
             switch state {
             case .unverified(let signedType, let verificationError):
                 print("Error on \(signedType): \(verificationError)")
             case .verified(let signedType):
-                if signedType.revocationDate == nil {
+                if signedType.revocationDate == nil{
                     purchasedIDs.insert(signedType.productID)
-                } else {
+                }else {
                     purchasedIDs.remove(signedType.productID)
                 }
             }
         }
     }
-    
-    // Private function to watch for transaction updates and check purchase status from App store
-    private func watchForUpdates() -> Task<Void, Never> {
+    private func watchForUpdates() -> Task<Void, Never>{
         Task(priority: .background) {
-            for await _ in Transaction.updates {
+            for await _ in Transaction.updates{
                 await checkPurchased()
             }
         }

@@ -13,6 +13,7 @@ struct ContentView: View {
     
     // State variables for audio player, animations, and view appearance
     @EnvironmentObject private var store : Store
+    @EnvironmentObject private var game : GameViewModel
     @State private var audioPlayer: AVAudioPlayer!
     @State private var scalePlayButton = false
     @State private var moveBackgroundImage = false
@@ -111,6 +112,8 @@ struct ContentView: View {
                                 // Play button with scaling animation
                                 Button {
                                     // start a new game
+                                    filterQuestion()
+                                    game.startNewGame()
                                     playGame.toggle()
                                 } label: {
                                     Text("Play")
@@ -118,7 +121,7 @@ struct ContentView: View {
                                         .foregroundStyle(.white)
                                         .padding(.vertical, 7)
                                         .padding(.horizontal, 50)
-                                        .background(.brown)
+                                        .background(store.books.contains(.active) ? .brown : .gray)
                                         .clipShape(RoundedRectangle(cornerRadius: 7))
                                         .shadow(radius: 5)
                                 }
@@ -132,13 +135,17 @@ struct ContentView: View {
                                 .transition(.offset(y: geo.size.height / 3)) // Slide in from the bottom
                                 .fullScreenCover(isPresented: $playGame, content: {
                                     GamePlayView()
+                                        .environmentObject(game)
                                 })
+                                .disabled(store.books.contains(.active) ? false : true)
                             }
                         }
                         .animation(.easeOut(duration: 0.7).delay(2), value: animateViewsIn)
                         
                         
+                        
                         Spacer()
+                        
                         
                         VStack {
                             if animateViewsIn {
@@ -166,6 +173,17 @@ struct ContentView: View {
                     }
                     .frame(width: geo.size.width)
                     
+                    VStack{
+                        if animateViewsIn {
+                            if store.books.contains(.active) == false{
+                                Text("No questions available. Go to setting.⬆️")
+                                    .multilineTextAlignment(.center)
+                                    .transition(.opacity)
+                            }
+                        }
+                    }
+                    .animation(.easeInOut.delay(2), value: animateViewsIn)
+                    
                     Spacer()
                 }
             }
@@ -185,9 +203,20 @@ struct ContentView: View {
         audioPlayer.numberOfLoops = -1 // Loop the audio indefinitely
         audioPlayer.play() // Start playing the audio
     }
+    private func filterQuestion(){
+        var books:[Int] = []
+        for(index,status) in store.books.enumerated(){
+            if status == .active{
+                books.append(index + 1)
+            }
+        }
+        game.filterQuestions(to: books)
+        game.newQuestion()
+    }
 }
 
 #Preview {
     ContentView()
         .environmentObject(Store())
+        .environmentObject(GameViewModel())
 }
