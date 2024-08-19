@@ -134,16 +134,16 @@ struct ContentView: View {
                                     }
                                 }
                                 .transition(.offset(y: geo.size.height / 3)) // Slide in from the bottom
-                                .fullScreenCover(isPresented: $playGame, content: {
+                                .fullScreenCover(isPresented: $playGame) {
                                     GamePlayView()
                                         .environmentObject(game)
-                                        .onAppear(perform: {
+                                        .onAppear{
                                             audioPlayer.setVolume(0, fadeDuration: 2)
-                                        })
+                                        }
                                         .onDisappear{
                                             audioPlayer.setVolume(1, fadeDuration: 3)
                                         }
-                                })
+                                }
                                 .disabled(store.books.contains(.active) ? false : true)
                             }
                         }
@@ -199,7 +199,7 @@ struct ContentView: View {
         .ignoresSafeArea() // Ignore safe area to cover the full screen
         .onAppear {
             animateViewsIn = true // Trigger animations on view appearance
-             //playAudio() // to play background music
+             playAudio() // to play background music
         }
     }
     
