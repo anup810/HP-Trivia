@@ -23,7 +23,7 @@ struct SettingsView: View {
                 ScrollView{
                     LazyVGrid(columns:[GridItem(),GridItem()]){
                         ForEach(0..<7){i in
-                            if store.books[i] == .active{
+                            if store.books[i] == .active || (store.books[i] == .locked && store.purchasedIDs.contains("hp\(i+1)")){
                                 ZStack(alignment:.bottomTrailing) {
                                     Image("hp\(i+1)")
                                         .resizable()
@@ -37,8 +37,12 @@ struct SettingsView: View {
                                         .shadow(radius: 1)
                                         .padding(3)
                                 }
+                                .task{
+                                    store.books[i] = .active
+                                }
                                 .onTapGesture {
                                     store.books[i] = .inactive
+                   
                                 }
                             }
                             else if store.books[i] == .inactive{
@@ -72,6 +76,12 @@ struct SettingsView: View {
                                         .font(.largeTitle)
                                         .imageScale(.large)
                                         .shadow(color: .white.opacity(0.75), radius: 3)
+                                }
+                                .onTapGesture {
+                                    let products = store.products[i-3]
+                                    Task{
+                                        await store.purchase(products)
+                                    }
                                 }
                             }
                         }
