@@ -16,7 +16,7 @@ To run this project locally:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/HP-Trivia.git
+    git clone https://github.com/anup810/HP-Trivia.git
     ```
 2. Open the project in Xcode:
     ```bash
